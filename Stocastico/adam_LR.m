@@ -6,6 +6,7 @@ n = size(images,2);
 m = size(images,1);
 alpha_vect = zeros(1,maxit*n);
 w = w_0;
+% La media e la sorta di varianza
 g_mean = zeros(m,1);
 g2_mean = zeros(m,1);
 j =2;

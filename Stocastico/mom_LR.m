@@ -6,6 +6,7 @@ n = size(images,2);
 m = size(images,1);
 w = w_0;
 j =2;
+% Termine in più dove gli passiamo un beta
 g_momentum = zeros(m,1);
 b = w'*images;
 a = b.*labels';
@@ -24,6 +25,7 @@ for i = 1:maxit*n
     r=rr(mod(i-1,n)+1);
     g = lambda*w-(labels(r,1)*exp(-w'*images(:,r)*labels(r,1)))/...
     (1+exp(-w'*images(:,r)*labels(r,1)))*images(:,r);
+    % ecco qua gli passiamo il beta.
     g_momentum = beta*g_momentum + g;
     w = w - alpha*g_momentum;
 end

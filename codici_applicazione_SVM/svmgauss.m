@@ -26,10 +26,6 @@ C = input(' fornire il parametro di regolarizzazione C: ');
 sig = input(' fornire varianza: ');
 sig = 2*sig^2;
 n = n1 + n2;
-% Quando calcolo gli elementi della matrice Q uso la gaussiana invece della
-% formula di prima. Senza modificare nulla della struttura e della
-% metodologia cambio la definizione del prodotto scalare e adatto ad un
-% altro caso.
 for i = 1 : n
     for j = i : n
 Q(i,j) = y(i) * y(j) * exp( -( norm( x(i,:) - x(j,:) )^2 )/sig );

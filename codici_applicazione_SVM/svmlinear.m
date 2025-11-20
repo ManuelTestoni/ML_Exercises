@@ -1,10 +1,8 @@
 clear all;
 clc;
 %  costruzione training set
-% nome file dove caricare i dati
 nomefile1 = input(' nome file classe  1 ','s');
 nomefile2 = input(' nome file classe -1 ','s');
-% carico i dati
 tmp1 =  load(nomefile1);
 [n1, m1] = size(tmp1);
 tmp2 =  load(nomefile2);
@@ -19,33 +17,22 @@ fprintf('\n Quanti esempi di classe  1 vuoi usare? (<=%i) ',n1);
 n1=input('');
 fprintf(' Quanti esempi di classe -1 vuoi usare? (<=%i) ',n2); 
 n2=input('');
-% Associo le etichette
 y = [ones(n1,1); -ones(n2,1)];
 
 x = [tmp1(1:n1,:); tmp2(1:n2,:)];
 %   costruzione iperpiano separatore ottimale generalizzato
 %   mediante risoluzione del problema duale
-%   Questo aiuta a gestire il trade off tra il learning del modello e
-%   l'overfitting.
 C = input('\n fornire il parametro di regolarizzazione C: ');
 n = n1 + n2;
 for i = 1 : n
     for j = i : n
-        % Costruisco la matrice del problema
-        % non funzionano così i software che risolvono SVM perchè in casi
-        % reali questa matrice è troppo grande e non possiamo permetterci
-        % di mantenerla in memoria.
         Q(i,j) = y(i) * y(j) * x(i,:) * x(j,:)';
     end
 end
 Q = triu(Q) + triu(Q,1)';
-% Qua chiamo la funzione della proiezione del grandiente e poi cerco i
-% vettori di supporto
+
 [alpha, vf, iter, info] = grad_pro_svm(Q, C, y, zeros(n,1), 1e-6, 10000);
-% Qui cercho gli alpha che sono diversi da zero, quindi maggiori della
-% soglia che è indicata in qunato è quasi zero.
 isv = find( (alpha > 1e-13)  );
-% Considero alpha uguale a C quando è molto vicino a C.
 ibsv = find( alpha >= C - 1e-13 );
 isv_not_bound = find( ( alpha > 1e-13 ) & ( alpha < (C-1e-13) ) );
 fprintf('\n  n. SV = %i,  n. BSV = %i\n',length(isv),length(ibsv));

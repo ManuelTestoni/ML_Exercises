@@ -77,7 +77,7 @@ function [h] = svcplot(X,Y,ker,alpha,bias,aspect,mag,xaxis,yaxis,input)
     % Plot Training points
 
     hold on
-    for i = 1:size(Y)
+    for i = 1:size(Y,1)
       if (Y(i) == 1)
         h(1) = plot(X(i,xaxis),X(i,yaxis),'b+','LineWidth',4); % Class A
       else
